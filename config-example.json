@@ -1,0 +1,5 @@
+//before use, change the info in this file appropriately
+//change the file name to "config.json"
+{
+  'token':'supersecretdiscordtoken'
+}
