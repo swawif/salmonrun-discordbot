@@ -91,11 +91,13 @@ client.on("message", (message) => {
                         name: "Weapon",
                         value: weaponString
                         },
+                        {
+                        name: "About this bot",
+                        value: "[A Salmon run Schedule bot](https://github.com/swawif/salmonrun-discordbot)"
+                        },
                     ],
-                    footer: {
-                        text: "Source : splatoon2.ink"
-                      }
                   }
+
                 });
             }
         
