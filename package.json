@@ -1,0 +1,18 @@
+{
+  "name": "salmonrunbot",
+  "version": "0.1.0",
+  "description": "Display salmonrun schedule grabbed from splatoon2.ink",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "syarif",
+  "license": "ISC",
+  "dependencies": {
+    "discord.io": "^2.5.3",
+    "discord.js": "^11.3.2",
+    "request": "^2.87.0",
+    "winston": "^3.0.0"
+  }
+}
