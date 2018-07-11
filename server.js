@@ -22,181 +22,187 @@ client.on("message", (message) => {
     }
     if (message.content.startsWith("!salmon")) {
 
-        request({url: url, json: true},
+        request({url: url, json: true},                                                     //my horrible code to process, parse, and send the salmon run schedule
             function (error, response, body) {
             if (!error && response.statusCode === 200) {
             
-                console.log('successfully get json from splatoon2.ink'); // Print the json response
+                console.log('successfully get json from splatoon2.ink');                    //Successfull fetch = Happy Face
 
                 //set the variables to get
                 var currentDate = new Date();                                               //get today time
                 var start0Epoch = body.schedules[0].start_time * 1000;                      //get salmon schedule in Epoch and then convert Epoch time to JS time
                 var end0Epoch = body.schedules[0].end_time * 1000;
-                var start0 = new Date(start0Epoch);                                         //convert JS time to zulu time
+                var start0 = new Date(start0Epoch);                                         //convert JS time to zulu (Z) time
                 var end0 = new Date(end0Epoch);
                 var diffStart = start0.getTime() / 1000 - currentDate.getTime() / 1000;     //get time remaining until start of next salmon
                 var diffEnd = end0.getTime() / 1000 - currentDate.getTime() / 1000;         //get time remaining until end of current salmon
-                var mapsName = body.details[0].stage.name;                                   //get current map name
+                var mapsName = body.details[0].stage.name;                                  //get current map name
                 var currentWeapon1 = body.details[0].weapons[0].weapon.name;                //get current weapon names
                 var currentWeapon2 = body.details[0].weapons[1].weapon.name;
                 var currentWeapon3 = body.details[0].weapons[2].weapon.name;
                 var currentWeapon4 = body.details[0].weapons[3].weapon.name;
-                //var weaponArray = [currentWeapon1, currentWeapon2, currentWeapon3, currentWeapon4];                   //Unused
-                var weaponString = currentWeapon1 + ", " + currentWeapon2 + ", " + currentWeapon3 + ", " + currentWeapon4;  //concatenate all weapon into one string
+                //var weaponArray = [currentWeapon1, currentWeapon2, currentWeapon3, currentWeapon4];                       //Unused
+                var weaponString = currentWeapon1 + ", " + currentWeapon2 + ", " + currentWeapon3 + ", " + currentWeapon4;  //concatenate all weapon into one gigantic string
+                var imageLink = '';
 
-                //debug making sure the variables are correct
-                console.log(start0); 
-                console.log(end0);
-                console.log(currentDate);
-                console.log(diffStart);
-                console.log(diffEnd);
-                console.log(weaponString);
+                switch(mapsName){
+                    default:
+                        imageLink = 'https://cdn.wikimg.net/en/splatoonwiki/images/5/5f/Salmon_Run_logo.png';
+                        break;
+                    case "Salmonid Smokeyard" : 
+                        imageLink = 'https://cdn.wikimg.net/en/splatoonwiki/images/c/c7/S2_Stage_Salmonid_Smokeyard.png';
+                        break;
+                    case "Spawning Grounds" : 
+                        imageLink = 'https://cdn.wikimg.net/en/splatoonwiki/images/2/29/S2_Stage_Spawning_Grounds.png';
+                        break;
+                    case "Marooner's Bay" : 
+                        imageLink = 'https://cdn.wikimg.net/en/splatoonwiki/images/6/6c/S2_Stage_Marooner%27s_Bay.png';
+                        break;
+                    case "Lost Outpost" : 
+                        imageLink = 'https://cdn.wikimg.net/en/splatoonwiki/images/6/68/S2_Stage_Lost_Outpost.png';
+                        break;
+
+                }
 
                 //convert to date
-                var d1 = new Date( new Date(start0Epoch).toUTCString() ).toLocaleDateString(); //Convert JS-Epoch to local date
-                var t1 = new Date( new Date(start0Epoch).toUTCString() ).toLocaleTimeString(); //Convert JS-Epoch to local time
+                var d1 = new Date( new Date(start0Epoch).toUTCString() ).toLocaleDateString();  //Convert JS-Epoch to local date
+                var t1 = new Date( new Date(start0Epoch).toUTCString() ).toLocaleTimeString();  //Convert JS-Epoch to local time
                 var d2 = new Date( new Date(end0Epoch).toUTCString() ).toLocaleDateString();
                 var t2 = new Date( new Date(end0Epoch).toUTCString() ).toLocaleTimeString();
 
                 var nextSchedule = "";                                                          //Set nextSchedule variable
+                var timeUntil = "";                                                             //set timeUntil variable 
 
-                if(diffStart < 0){
-                    nextSchedule = "Ends in " + secondsToHms(diffEnd);
+                if(diffStart < 0){                                                              //Adjust timeUntil according to current salmon run time (Available or not)
+                    timeUntil = "Ends in " + secondsToHms(diffEnd);
+                    nextSchedule = "Ends at " + d2 + ", " + t2;                                        
                 } else {
-                    nextSchedule = "Starts in " + secondsToHms(diffStart);
+                    timeUntil = "Starts in " + secondsToHms(diffStart);
+                    nextSchedule = "Starts at " + d1 + ", " + t1;
                 }
-                console.log("nextSchedule " + nextSchedule); //print result in console
 
-                message.channel.send({embed: {
-                    color: 3447003,
-                    title: "Salmon run schedule",
-                    description: nextSchedule,
-                    fields: [
-                        {
-                        name: "Current map",
-                        value: mapsName
-                        },
-                        {
-                        name: "Weapon",
-                        value: weaponString
-                        },
-                        {
-                        name: "About this bot",
-                        value: "[A Salmon run Schedule bot](https://github.com/swawif/salmonrun-discordbot)"
-                        },
-                    ],
-                  }
+              
+                const embed = new Discord.RichEmbed()                                           //Prepare the response using Discord.js's RichEmbed function
+                    .setTitle("Salmon run schedule")
+                    .setColor(3447003)
+                    .setDescription(timeUntil)
+                    .addField("Schedule", nextSchedule)
+                    .addField("Current Map",mapsName)
+                    .addField("Current Weapons", weaponString)
+                    .setImage(imageLink)
+                    .setFooter("Source : Splatoon2.ink. Generated on ")
+                    .setTimestamp();
 
-                });
+                console.log("Today (zulu) is : " + currentDate);                                //debug making sure the variables are correct
+                console.log("Start zulu time : " + start0); 
+                console.log("End zulu time : " + end0);
+                console.log("Time until Start " + diffStart);
+                console.log("Time until End " + diffEnd);
+                console.log("nextSchedule " + nextSchedule);
+                console.log("time until next " + timeUntil);
+                console.log("The weapons are : " + weaponString);
+                console.log(imageLink);
+                console.log(embed);
+
+                message.channel.send({embed});                                                  //Send the message to discord
+
             }
         
         });
     }
+    if (message.content.startsWith("!nextsalmon")) {
+
+        request({url: url, json: true},                                                     //my horrible code to process, parse, and send the salmon run schedule
+            function (error, response, body) {
+            if (!error && response.statusCode === 200) {
+            
+                console.log('successfully get json from splatoon2.ink');                    //Successfull fetch = Happy Face
+
+                //set the variables to get
+                var currentDate = new Date();                                               //get today time
+                var start0Epoch = body.schedules[1].start_time * 1000;                      //get salmon schedule in Epoch and then convert Epoch time to JS time
+                var end0Epoch = body.schedules[1].end_time * 1000;
+                var start0 = new Date(start0Epoch);                                         //convert JS time to zulu (Z) time
+                var end0 = new Date(end0Epoch);
+                var diffStart = start0.getTime() / 1000 - currentDate.getTime() / 1000;     //get time remaining until start of next salmon
+                var diffEnd = end0.getTime() / 1000 - currentDate.getTime() / 1000;         //get time remaining until end of current salmon
+                var mapsName = body.details[1].stage.name;                                  //get current map name
+                var currentWeapon1 = body.details[1].weapons[0].weapon.name;                //get current weapon names
+                var currentWeapon2 = body.details[1].weapons[1].weapon.name;
+                var currentWeapon3 = body.details[1].weapons[2].weapon.name;
+                var currentWeapon4 = body.details[1].weapons[3].weapon.name;
+                //var weaponArray = [currentWeapon1, currentWeapon2, currentWeapon3, currentWeapon4];                       //Unused
+                var weaponString = currentWeapon1 + ", " + currentWeapon2 + ", " + currentWeapon3 + ", " + currentWeapon4;  //concatenate all weapon into one gigantic string
+                var imageLink = '';
+
+                switch(mapsName){
+                    default:
+                        imageLink = 'https://cdn.wikimg.net/en/splatoonwiki/images/5/5f/Salmon_Run_logo.png';
+                        break;
+                    case "Salmonid Smokeyard" : 
+                        imageLink = 'https://cdn.wikimg.net/en/splatoonwiki/images/c/c7/S2_Stage_Salmonid_Smokeyard.png';
+                        break;
+                    case "Spawning Grounds" : 
+                        imageLink = 'https://cdn.wikimg.net/en/splatoonwiki/images/2/29/S2_Stage_Spawning_Grounds.png';
+                        break;
+                    case "Marooner's Bay" : 
+                        imageLink = 'https://cdn.wikimg.net/en/splatoonwiki/images/6/6c/S2_Stage_Marooner%27s_Bay.png';
+                        break;
+                    case "Lost Outpost" : 
+                        imageLink = 'https://cdn.wikimg.net/en/splatoonwiki/images/6/68/S2_Stage_Lost_Outpost.png';
+                        break;
+
+                }
+
+                //convert to date
+                var d1 = new Date( new Date(start0Epoch).toUTCString() ).toLocaleDateString();  //Convert JS-Epoch to local date
+                var t1 = new Date( new Date(start0Epoch).toUTCString() ).toLocaleTimeString();  //Convert JS-Epoch to local time
+                var d2 = new Date( new Date(end0Epoch).toUTCString() ).toLocaleDateString();
+                var t2 = new Date( new Date(end0Epoch).toUTCString() ).toLocaleTimeString();
+
+                var timeUntil = "";                                                          //Set nextSchedule variable
+                var nextSchedule = "";
+
+                if(diffStart < 0){                                                              //Adjust nextSchedule according to current salmon run time (Available or not)
+                    timeUntil = "Ends in " + secondsToHms(diffEnd);
+                    nextSchedule = "Ends at " + d2 + ", " + t2;
+                } else {
+                    timeUntil = "Starts in " + secondsToHms(diffStart);
+                    nextSchedule = "Starts at " + d1 + ", " + t1;
+                }
+
+              
+                const embed = new Discord.RichEmbed()                                           //Prepare the response using Discord.js's RichEmbed function
+                    .setTitle("Salmon run schedule")
+                    .setColor(3447003)
+                    .setDescription(timeUntil)
+                    .addField("Schedule",nextSchedule)
+                    .addField("Current Map",mapsName)
+                    .addField("Current Weapons", weaponString)
+                    .setImage(imageLink)
+                    .setFooter("Source : Splatoon2.ink. Generated on ")
+                    .setTimestamp();
+
+                console.log("Today (zulu) is : " + currentDate);                                //debug making sure the variables are correct
+                console.log("Start zulu time : " + start0); 
+                console.log("End zulu time : " + end0);
+                console.log("Time until Start " + diffStart);
+                console.log("Time until End " + diffEnd);
+                console.log("nextSchedule " + timeUntil);
+                console.log("The weapons are : " + weaponString);
+                console.log(imageLink);
+                console.log(embed);
+
+                message.channel.send({embed});                                                  //Send the message to discord
+
+            }
+        
+        });
+    }
+
   });
 
 client.login(config.token);
 
-console.log("I'm Ready!"); //startup message
-console.log(Date());
-
-//make salmon run schedule response
-/*client.on("message", (message) => {
-    if (message.content.startsWith("!salmon")) {
-
-        request({url: url, json: true},
-            function (error, response, body) {
-            if (!error && response.statusCode === 200) {
-            
-                console.log('successfully get json from splatoon2.ink'); // Print the json response
-
-                //set the variables to get
-                var currentDate = new Date();                                               //get today time
-                var start0Epoch = body.schedules[0].start_time * 1000;                      //get salmon schedule in Epoch and then convert Epoch time to JS time
-                var end0Epoch = body.schedules[0].end_time * 1000;
-                var start0 = new Date(start0Epoch);                                         //convert JS time to zulu time
-                var end0 = new Date(end0Epoch);
-                var diffStart = start0.getTime() / 1000 - currentDate.getTime() / 1000;     //get time remaining until start of next salmon
-                var diffEnd = end0.getTime() / 1000 - currentDate.getTime() / 1000;         //get time remaining until end of current salmon
-                var mapsName = body.details[0].stage.name;                                   //get current map name
-                var currentWeapon1 = body.details[0].weapons[0].weapon.name;                //get current weapon names
-                var currentWeapon2 = body.details[0].weapons[1].weapon.name;
-                var currentWeapon3 = body.details[0].weapons[2].weapon.name;
-                var currentWeapon4 = body.details[0].weapons[3].weapon.name;
-                //var weaponArray = [currentWeapon1, currentWeapon2, currentWeapon3, currentWeapon4];                   //Unused
-                var weaponString = currentWeapon1 + ", " + currentWeapon2 + ", " + currentWeapon3 + ", " + currentWeapon4;  //concatenate all weapon into one string
-
-                //debug making sure the variables are correct
-                console.log(start0); 
-                console.log(end0);
-                console.log(currentDate);
-                console.log(diffStart);
-                console.log(diffEnd);
-                console.log(weaponString);
-
-                //convert to date
-                var d1 = new Date( new Date(start0Epoch).toUTCString() ).toLocaleDateString(); //Convert JS-Epoch to local date
-                var t1 = new Date( new Date(start0Epoch).toUTCString() ).toLocaleTimeString(); //Convert JS-Epoch to local time
-                var d2 = new Date( new Date(end0Epoch).toUTCString() ).toLocaleDateString();
-                var t2 = new Date( new Date(end0Epoch).toUTCString() ).toLocaleTimeString();
-
-                var nextSchedule = "";                                                          //Set nextSchedule variable
-
-                if(diffStart < 0){
-                    nextSchedule = "Ends in " + secondsToHms(diffEnd);
-                } else {
-                    nextSchedule = "Starts in " + secondsToHms(diffStart);
-                }
-                console.log("nextSchedule " + nextSchedule); //print result in console
-
-                message.channel.send({embed: {
-                    color: 3447003,
-                    title: "Salmon run schedule",
-                    description: nextSchedule,
-                    fields: [
-                        {
-                        name: "Current map",
-                        value: mapsName
-                        },
-                        {
-                        name: "Weapon",
-                        value: weaponString
-                        },
-                        {
-                        name: "About this bot",
-                        value: "[A Salmon run Schedule bot](https://github.com/swawif/salmonrun-discordbot)"
-                        },
-                    ],
-                  }
-
-                });
-            }
-        
-        });
-    }
-  });*/
-
-/* HALL OF SHAME - my personal experimentation code block - DON'T JUDGE ME ;-;
-
-request({url: url, json: true},
-    function astaga(error, response, body) {
-    if (!error && response.statusCode === 200) {
-    
-        console.log('successfully get json from splatoon2.ink') // Print the json response
-        var start0Epoch = body.schedules[0].start_time * 1000; //convert Epoch time to JS-Epoch time
-        var end0Epoch = body.schedules[0].end_time * 1000;
-            
-        console.log(start0Epoch); //Debug - Print new Epoch time
-        console.log(end0Epoch);
-        
-        var d1 = new Date( new Date(start0Epoch).toUTCString() ).toLocaleDateString(); //Convert JS-Epoch to local date
-        var t1 = new Date( new Date(start0Epoch).toUTCString() ).toLocaleTimeString(); //Convert JS-Epoch to local time
-        var d2 = new Date( new Date(end0Epoch).toUTCString() ).toLocaleDateString();
-        var t2 = new Date( new Date(end0Epoch).toUTCString() ).toLocaleTimeString();
-        console.log("salmon run will start at "+d1+" on "+t1+" and ends at "+d2+" on "+t2); //print result in console
-    }});
-*/
-/*//REMEMBER, DATE IN JS IS COUNTED IN miliSeconds NOT Seconds LIKE EPOCH DO
-var schedule = 1531202400*1000; //whatever the splatoon date is
-var d = new Date( new Date(schedule).toUTCString() ).toLocaleString();
-console.log(d);
-*/
+console.log("I'm Ready!");                              //startup message
+console.log(Date());                                    //Print today's date
