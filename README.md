@@ -3,7 +3,7 @@ A salmon run bot for discord that post salmon run's schedules in chat using Disc
 
 USAGE
 
-currently there is only one command that is useful on this bot, which is '!salmon'
+currently there is only one command that is useful on this bot, which is '!salmon'. I'm planning to add more commands in the near future for salmon or splatoon 2 related infos
 
 !salmon : 
 Replies with the current or the next salmonrun schedule
