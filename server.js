@@ -83,13 +83,14 @@ client.on("message", (message) => {
 
               
                 const embed = new Discord.RichEmbed()                                           //Prepare the response using Discord.js's RichEmbed function
-                    .setTitle("Salmon run schedule")
+                    .setTitle("The Salmon Run Bot")
                     .setColor(3447003)
                     .setDescription(timeUntil)
                     .addField("Schedule", nextSchedule)
                     .addField("Current Map",mapsName)
                     .addField("Current Weapons", weaponString)
                     .setImage(imageLink)
+                    .setURL('https://github.com/swawif/salmonrun-discordbot')
                     .setFooter("Source : Splatoon2.ink. Generated on ")
                     .setTimestamp();
 /*
@@ -173,13 +174,14 @@ client.on("message", (message) => {
 
               
                 const embed = new Discord.RichEmbed()                                           //Prepare the response using Discord.js's RichEmbed function
-                    .setTitle("Salmon run schedule")
+                    .setTitle("The Salmon Run Bot")
                     .setColor(3447003)
                     .setDescription(timeUntil)
                     .addField("Schedule",nextSchedule)
                     .addField("Current Map",mapsName)
                     .addField("Current Weapons", weaponString)
                     .setImage(imageLink)
+                    .setURL('https://github.com/swawif/salmonrun-discordbot')
                     .setFooter("Source : Splatoon2.ink. Generated on ")
                     .setTimestamp();
 /*
