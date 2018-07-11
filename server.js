@@ -106,7 +106,7 @@ client.on("message", (message) => {
                 console.log(embed);
 */
                 message.channel.send({embed});                                                  //Send the message to discord
-                console.log("Request for !salmon sent successfully")
+                console.log("Request for !salmon sent successfully on " + Date());
             }
         
         });
@@ -196,7 +196,7 @@ client.on("message", (message) => {
                 console.log(embed);
 */
                 message.channel.send({embed});                                                  //Send the message to discord
-                console.log("Request for !nextsalmon sent successfully")
+                console.log("Request for !nextsalmon sent successfully on " + Date());
             }
         
         });
