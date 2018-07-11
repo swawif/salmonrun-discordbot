@@ -1,3 +1,4 @@
+/*jshint esversion: 6 */
 const request = require('request');
 const fs = require('fs');
 const coopUrl = "https://splatoon2.ink/data/coop-schedules.json";
@@ -6,7 +7,7 @@ exports.getCoopSchedule = function getCoopJson(){
     fs.stat('coop.json', (err) => {
       if (err){
         console.log("No JSON Found!");
-      } else {console.log("coop.json found! updating...")};
+      } else {console.log("coop.json found! updating...");}
     });
     request({url: coopUrl, json: true},
       function (error, response, body) {
