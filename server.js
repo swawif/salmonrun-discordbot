@@ -92,7 +92,7 @@ client.on("message", (message) => {
                     .setImage(imageLink)
                     .setFooter("Source : Splatoon2.ink. Generated on ")
                     .setTimestamp();
-
+/*
                 console.log("Today (zulu) is : " + currentDate);                                //debug making sure the variables are correct
                 console.log("Start zulu time : " + start0); 
                 console.log("End zulu time : " + end0);
@@ -103,9 +103,9 @@ client.on("message", (message) => {
                 console.log("The weapons are : " + weaponString);
                 console.log(imageLink);
                 console.log(embed);
-
+*/
                 message.channel.send({embed});                                                  //Send the message to discord
-
+                console.log("Request for !salmon sent successfully")
             }
         
         });
@@ -182,7 +182,7 @@ client.on("message", (message) => {
                     .setImage(imageLink)
                     .setFooter("Source : Splatoon2.ink. Generated on ")
                     .setTimestamp();
-
+/*
                 console.log("Today (zulu) is : " + currentDate);                                //debug making sure the variables are correct
                 console.log("Start zulu time : " + start0); 
                 console.log("End zulu time : " + end0);
@@ -192,9 +192,9 @@ client.on("message", (message) => {
                 console.log("The weapons are : " + weaponString);
                 console.log(imageLink);
                 console.log(embed);
-
+*/
                 message.channel.send({embed});                                                  //Send the message to discord
-
+                console.log("Request for !nextsalmon sent successfully")
             }
         
         });
