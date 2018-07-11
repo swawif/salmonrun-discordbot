@@ -15,15 +15,16 @@ Replies with the next available salmonrun schedule
 
 ## Installation
 
-Ensure you have Node.js Installed
+Ensure you have Node.js, npm, and PM2 Installed 
 
 1. download file and then unzip into some folder.
 2. rename the 'config-example.json' to 'config.json'
 3. in the 'config.json' replace the "supersecretkey" to your discord bot's key
-4. run npm install
-5. run node server.js
+4. run 'npm install' (to install any dependencies that might get lost)
+5. type on your command prompt 'pm2 start server.js' (we are using PM2 so that the bot will run on the background, even if the CMD/terminal window is closed)
 6. ???
 7. profit (I Think...)
+8. now the bot will run automagically on the background.
 
 
 
