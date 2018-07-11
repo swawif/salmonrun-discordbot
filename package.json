@@ -1,6 +1,6 @@
 {
   "name": "salmonrunbot",
-  "version": "0.1.0",
+  "version": "0.5.0",
   "description": "Display salmonrun schedule grabbed from splatoon2.ink",
   "main": "server.js",
   "scripts": {
@@ -8,10 +8,11 @@
     "start": "node server.js"
   },
   "author": "syarif",
-  "license": "ISC",
+  "license": "GNU GPL v3",
   "dependencies": {
     "discord.io": "^2.5.3",
     "discord.js": "^11.3.2",
+    "fs": "0.0.1-security",
     "request": "^2.87.0",
     "winston": "^3.0.0"
   }
