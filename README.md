@@ -1,6 +1,15 @@
 ﻿# salmonrun-discordbot
 A salmon run bot for discord that post salmon run's schedules in chat using Discord.js and Node.JS by parsing JSON API's from splatoon2.ink, licenced under the GNU GPL v3
 
+USAGE
+
+currently there is only one command that is useful on this bot, which is '!salmon'
+
+!salmon : 
+Replies with the current or the next salmonrun schedule
+
+
+
 DISCLAIMER
 
 THIS BOT IS MADE BY A TOTAL AMATEUR.
