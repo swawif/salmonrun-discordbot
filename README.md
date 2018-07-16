@@ -36,4 +36,4 @@ If this bot break your stuff (unlikely) and take down the whole internet with it
 
 Also if it doesn't work, most of the time I do not know how to fix it. So don't bother contacting me. google is your best friend (because that's how I debug most of my code). But so far it works alright
 
-this bot is primarily made to train my coding skills. also to replace the now unmaintained "R. Danny" bot (the salmon run part has yet to be updated until the time of writing, 9th July 2018)
+this bot is primarily made to train my coding skills. ~~also to replace the now unmaintained "R. Danny" bot (the salmon run part has yet to be updated until the time of writing, 9th July 2018)~~ UPDATE : 12th July 2018 - R. Danny is back! use that instead! It's a great bot! but if you wanted to stick with this. i highly appreciated your dedication :)
