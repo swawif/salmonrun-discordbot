@@ -1,7 +1,7 @@
 {
   "name": "salmonrunbot",
-  "version": "0.5.0",
-  "description": "Display salmonrun schedule grabbed from splatoon2.ink",
+  "version": "1.0.0",
+  "description": "Display salmonrun schedule from splatoon2.ink",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
