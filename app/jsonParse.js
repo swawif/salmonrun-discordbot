@@ -37,13 +37,11 @@ exports.timeUntilSalmon = function timeUntil(num){
         timeUntil = "Starts in " + secondsToHms(diffStart);
     }
 
-    console.log(currentDate, start0, start0Epoch, end0, end0Epoch, timeUntil);
+    console.log(timeUntil);
 
     return timeUntil;
 
 };
-
-//console.log("TIMEUNTIL : " +timeUntil(2));
 
 exports.nextSchedules = function nextSalmon(a){
 
@@ -66,7 +64,7 @@ exports.nextSchedules = function nextSalmon(a){
         nextSchedule = "Starts at " + d1 + ", " + t1;
     }
 
-    //console.log(nextSchedule);
+    console.log(nextSchedule);
 
     return nextSchedule;
 
@@ -88,18 +86,17 @@ exports.mapName = function mapNames(a) {
 exports.weaponName = function weapons(a){
 
     var weaponArray = new Array();
-    if ( a > 1){
+    if ( a > 1 ){
         weaponString = "No weapons has been assigned"
     } else {
         for (i = 0; i < 4; i++){
             const weapons = coopSchedule.details[a].weapons[i];
             const weapon = (weapons.weapon || weapons.coop_special_weapon);
-            console.log(weapon.name);
             weaponArray.push(weapon.name);
-            console.log(weaponArray);
         }
     }
     weaponString = weaponArray[0] + ", " + weaponArray[1] + ", " + weaponArray[2] + ", " + weaponArray[3];
+    console.log(weaponString);
     return weaponString;
 };
 
