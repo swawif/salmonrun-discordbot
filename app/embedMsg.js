@@ -1,6 +1,6 @@
 /*jshint esversion:6*/
 const Discord = require('discord.js');
-const msgResponse = require('./prepareResponse.js');
+const msgResponse = require('./jsonParse.js');
 
 exports.embed = function embeded(a){
     const discordEmbed = new Discord.RichEmbed()                                           //Prepare the response using Discord.js's RichEmbed function

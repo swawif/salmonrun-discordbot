@@ -12,7 +12,7 @@ exports.getCoopSchedule = function getCoopJson(){
     request({url: coopUrl, json: true},
       function (error, response, body) {
       if (!error && response.statusCode === 200) {
-        console.log("successfully retrieve coop-schedules.json from splatoon2.ink");
+        console.log("successfully retrieved coop-schedules.json from splatoon2.ink");
         console.log(body);
         var coopJson = body;
         fs.writeFile('coop.json', JSON.stringify(coopJson), (err) => {
